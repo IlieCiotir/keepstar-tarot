@@ -1,0 +1,18 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8">
+            <app-war-events-map (systemEntered)="enter($event)" (systemLeft)="leave($event)">
+            </app-war-events-map>
+        </div>
+        <div class="col-md-4 d-flex justify-content-center align-items-start pt-4 border border-light">
+            <div *ngIf="viewedNode" class="card" style="width: 18rem;">
+                <img src="/assets/cards/16_-_The_Tower_3-DMQT.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{viewedNode?.name}}</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

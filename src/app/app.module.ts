@@ -4,7 +4,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './reducers';
+import * as fromTarotState from './reducers';
+import { WarModule } from './war/war.module';
+import { HttpClientModule } from '@angular/common/http';
+import { EffectsModule } from '@ngrx/effects';
+import { setTheme } from 'ngx-bootstrap/utils';
 
 @NgModule({
   declarations: [
@@ -13,11 +17,16 @@ import { reducers, metaReducers } from './reducers';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot(reducers, {
-      metaReducers
-    })
+    HttpClientModule,
+    StoreModule.forRoot(fromTarotState.reducers, { metaReducers: fromTarotState.metaReducers }),
+    EffectsModule.forRoot([]),
+    WarModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    setTheme('bs4')
+  }
+}
