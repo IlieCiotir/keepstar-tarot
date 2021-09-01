@@ -16,7 +16,7 @@ export class WarEffects {
     return this.actions$.pipe(
 
       ofType(WarActions.loadWars),
-      switchMap(() => this.http.get<WarActions.MapData>(`/assets/systems/graph.json`)
+      switchMap(() => this.http.get<WarActions.MapData>(`./assets/systems/graph.json`)
         .pipe(
           map(({ nodes, links }) => WarActions.loadWarsSuccess({ nodes, links }))
         ))

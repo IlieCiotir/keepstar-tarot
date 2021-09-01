@@ -6,13 +6,15 @@ import { WarEventsMapComponent } from './war-events-map/war-events-map.component
 import { StoreModule } from '@ngrx/store';
 import { reducer, warFeatureKey } from './model/war.reducer';
 import { WarEventsComponent } from './war-events/war-events.component';
+import { ConfigureMapComponent } from './configure-map/configure-map.component';
 
 
 
 @NgModule({
   declarations: [
     WarEventsMapComponent,
-    WarEventsComponent
+    WarEventsComponent,
+    ConfigureMapComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +22,8 @@ import { WarEventsComponent } from './war-events/war-events.component';
     EffectsModule.forFeature([WarEffects])
   ],
   exports: [
-    WarEventsMapComponent
+    WarEventsMapComponent,
+    ConfigureMapComponent
   ],
   entryComponents: [
     WarEventsMapComponent

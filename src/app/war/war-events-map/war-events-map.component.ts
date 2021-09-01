@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { warFeatureKey, WarState } from '../model/war.reducer';
 import * as d3 from 'd3-selection';
@@ -57,6 +57,12 @@ export class WarEventsMapComponent implements OnInit, AfterViewInit {
   public systemEntered = new EventEmitter<Node>();
   @Output()
   public systemLeft = new EventEmitter<Node>();
+
+  @Output()
+  public systemClicked = new EventEmitter<Node>();
+
+  @Input()
+  public allowRepositioning = false;
 
 
   constructor(private store: Store<{ [warFeatureKey]: WarState }>) {
@@ -119,11 +125,15 @@ export class WarEventsMapComponent implements OnInit, AfterViewInit {
       .classed("delve", (d) => d.region === "Delve")
       .on("mouseover", function (d, i) { that.systemEntered.emit(i); handleMouseOver.bind(this)(d, i) })
       .on("mouseout", function (d, i) { that.systemLeft.emit(i); handleMouseOut.bind(this)() })
-      .on("dblclick", (d) => { d.fx = null; d.fy = null; })
-      .call(d3Drag.drag()
-        .on("start", dragstarted)
-        .on("drag", dragged)
-        .on("end", dragended))
+      .on('click', (d, i) => this.systemClicked.emit(i))      ;
+    if (this.allowRepositioning) {
+      node = node
+        .on("dblclick", (d) => { d.fx = null; d.fy = null; })
+        .call(d3Drag.drag()
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          .on("end", dragended))
+    }
 
     const circle = node.append("circle")
       .attr("fill", "black")
@@ -133,7 +143,7 @@ export class WarEventsMapComponent implements OnInit, AfterViewInit {
       .attr('style', 'transition:all 0.3s ease;')
     node
       .append("image")
-      .attr("xlink:href", "/assets/icons/citadelExtraLarge.png")
+      .attr("xlink:href", "assets/icons/citadelExtraLarge.png")
       .attr("x", -8)
       .attr("y", -8)
       .attr("width", 16)
